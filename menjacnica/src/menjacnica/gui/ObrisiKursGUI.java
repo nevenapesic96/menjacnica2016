@@ -79,7 +79,7 @@ public class ObrisiKursGUI extends JFrame {
 		this.glavniProzor = glavniProzor;
 		this.valuta = valuta;
 		
-		prikaziValutu();
+		GUIKontroler.prikaziValutu(valuta);
 	}
 
 	private JLabel getLblSifra() {
@@ -177,7 +177,7 @@ public class ObrisiKursGUI extends JFrame {
 			btnDodaj = new JButton("Obrisi");
 			btnDodaj.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					obrisiValutu();
+					GUIKontroler.obrisiValutu(valuta);
 				}
 			});
 			btnDodaj.setEnabled(false);
@@ -189,7 +189,7 @@ public class ObrisiKursGUI extends JFrame {
 			btnOdus = new JButton("Odustani");
 			btnOdus.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					dispose();
+					GUIKontroler.zatvoriProzorObrisi();
 				}
 			});
 		}
@@ -215,26 +215,22 @@ public class ObrisiKursGUI extends JFrame {
 		}
 		return label;
 	}
-	
-	private void prikaziValutu() {
-		// Prikaz podataka o valuti
-		textFieldNaziv.setText(valuta.getNaziv());
-		textFieldSkraceniNaziv.setText(valuta.getSkraceniNaziv());
-		textFieldSifra.setText(""+valuta.getSifra());
-		textFieldProdajniKurs.setText(""+valuta.getProdajni());
-		textFieldKupovniKurs.setText(""+valuta.getKupovni());
-		textFieldSrednjiKurs.setText(""+valuta.getSrednji());				
+	public void upisiNaziv(String tekst){
+		textFieldNaziv.setText(tekst);
 	}
-
-	private void obrisiValutu() {
-		try{
-			glavniProzor.sistem.obrisiValutu(valuta);
-			
-			glavniProzor.prikaziSveValute();
-			dispose();
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(contentPane, e1.getMessage(),
-					"Greska", JOptionPane.ERROR_MESSAGE);
-		}
+	public void upisiSifru(String tekst){
+		textFieldSifra.setText(tekst);
+	}
+	public void upisiProdajni(String tekst){
+		textFieldProdajniKurs.setText(tekst);
+	}
+	public void upisiKupovni(String tekst){
+		textFieldKupovniKurs.setText(tekst);
+	}
+	public void upisiSrednji(String tekst){
+		textFieldSrednjiKurs.setText(tekst);
+	}
+	public void upisiSkraceniNaziv(String tekst){
+		textFieldSkraceniNaziv.setText(tekst);
 	}
 }

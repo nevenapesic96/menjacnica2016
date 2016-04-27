@@ -169,7 +169,7 @@ public class DodajKursGUI extends JFrame {
 			btnOdus = new JButton("Odustani");
 			btnOdus.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					GUIKontroler.odustani();
+					GUIKontroler.zatvoriProzorDodaj();
 				}
 			});
 		}
