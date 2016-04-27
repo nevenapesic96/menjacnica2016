@@ -2,6 +2,7 @@ package menjacnica.gui;
 
 import java.awt.EventQueue;
 import java.io.File;
+import java.util.LinkedList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -54,26 +55,18 @@ public class GUIKontroler {
 		prozorDodajKurs.setVisible(true);
 	}
 	
-	public static void prikaziObrisiKursGUI(int selektovanRed, TableModel tableModel){
-		if (selektovanRed != -1) {
-			MenjacnicaTableModel model = (MenjacnicaTableModel)(tableModel);
-			ObrisiKursGUI prozorObrisiKurs = new ObrisiKursGUI(frame,
-					model.vratiValutu(selektovanRed));
+	public static void prikaziObrisiKursGUI(Valuta valuta){
+			prozorObrisiKurs = new ObrisiKursGUI(frame,valuta);
 			prozorObrisiKurs.setLocationRelativeTo(frame.getContentPane());
 			prozorObrisiKurs.setVisible(true);
-		}
 	}
 	
-	public static void prikaziIzvrsiZamenuGUI(int selektovanRed, TableModel tableModel){
-		if (selektovanRed != -1) {
-			MenjacnicaTableModel model = (MenjacnicaTableModel)(tableModel);
-			prozorIzvrsiZamenu = new IzvrsiZamenuGUI(frame,
-					model.vratiValutu(selektovanRed));
+	public static void prikaziIzvrsiZamenuGUI(Valuta valuta){
+			prozorIzvrsiZamenu = new IzvrsiZamenuGUI(frame,valuta);
 			prozorIzvrsiZamenu.setLocationRelativeTo(frame.getContentPane());
 			prozorIzvrsiZamenu.setVisible(true);
-		}
 	}
-	public static void ucitajIzFajla(TableModel tableModel){
+	public static void ucitajIzFajla(){
 		try {
 			JFileChooser fc = new JFileChooser();
 			int returnVal = fc.showOpenDialog(frame);
@@ -81,18 +74,13 @@ public class GUIKontroler {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
 				sistem.ucitajIzFajla(file.getAbsolutePath());
-				prikaziSveValute(tableModel);
 			}	
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(frame, e1.getMessage(),
 					"Greska", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	protected static void prikaziSveValute(TableModel tableModel) {
-		MenjacnicaTableModel model = (MenjacnicaTableModel)(tableModel);
-		model.staviSveValuteUModel(sistem.vratiKursnuListu());
-
-	}
+	
 	
 	public static void sacuvajUFajl(){
 		try {
@@ -133,7 +121,7 @@ public class GUIKontroler {
 			sistem.dodajValutu(valuta);
 
 			// Osvezavanje glavnog prozora
-			prikaziSveValute((TableModel)frame.vratiTabelu());
+			frame.prikaziSveValute();
 			
 			//Zatvaranje DodajValutuGUI prozora
 			prozorDodajKurs.dispose();
@@ -160,7 +148,7 @@ public class GUIKontroler {
 		try{
 			sistem.obrisiValutu(valuta);
 			
-			prikaziSveValute((TableModel)frame.vratiTabelu());
+			frame.prikaziSveValute();
 			prozorObrisiKurs.dispose();
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(frame, e1.getMessage(),
@@ -190,5 +178,8 @@ public class GUIKontroler {
 		JOptionPane.showMessageDialog(frame, e1.getMessage(),
 				"Greska", JOptionPane.ERROR_MESSAGE);
 	}
+	}
+	public static LinkedList<Valuta> vratiKursnuListu() {
+		return sistem.vratiKursnuListu();
 	}
 }
