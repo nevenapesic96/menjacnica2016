@@ -79,7 +79,7 @@ public class ObrisiKursGUI extends JFrame {
 		this.glavniProzor = glavniProzor;
 		this.valuta = valuta;
 		
-		GUIKontroler.prikaziValutu(valuta);
+		GUIKontroler.prikaziValutuObrisiKurs(valuta);
 	}
 
 	private JLabel getLblSifra() {

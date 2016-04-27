@@ -19,7 +19,7 @@ public class GUIKontroler {
 	public static MenjacnicaGUI frame;
 	public static DodajKursGUI prozorDodajKurs;
 	public static ObrisiKursGUI prozorObrisiKurs;
-	
+	public static IzvrsiZamenuGUI prozorIzvrsiZamenu;
 	/**
 	 * Launch the application.
 	 */
@@ -59,7 +59,7 @@ public class GUIKontroler {
 			MenjacnicaTableModel model = (MenjacnicaTableModel)(tableModel);
 			ObrisiKursGUI prozorObrisiKurs = new ObrisiKursGUI(frame,
 					model.vratiValutu(selektovanRed));
-			prozorObrisiKurs.setLocationRelativeTo(frame);
+			prozorObrisiKurs.setLocationRelativeTo(frame.getContentPane());
 			prozorObrisiKurs.setVisible(true);
 		}
 	}
@@ -67,10 +67,10 @@ public class GUIKontroler {
 	public static void prikaziIzvrsiZamenuGUI(int selektovanRed, TableModel tableModel){
 		if (selektovanRed != -1) {
 			MenjacnicaTableModel model = (MenjacnicaTableModel)(tableModel);
-			IzvrsiZamenuGUI prozor = new IzvrsiZamenuGUI(frame,
+			prozorIzvrsiZamenu = new IzvrsiZamenuGUI(frame,
 					model.vratiValutu(selektovanRed));
-			prozor.setLocationRelativeTo(frame);
-			prozor.setVisible(true);
+			prozorIzvrsiZamenu.setLocationRelativeTo(frame.getContentPane());
+			prozorIzvrsiZamenu.setVisible(true);
 		}
 	}
 	public static void ucitajIzFajla(TableModel tableModel){
@@ -147,7 +147,7 @@ public class GUIKontroler {
 	}
 	//ObrisiKursGUI
 	
-	public static void prikaziValutu(Valuta valuta){
+	public static void prikaziValutuObrisiKurs(Valuta valuta){
 		prozorObrisiKurs.upisiNaziv(valuta.getNaziv());
 		prozorObrisiKurs.upisiSkraceniNaziv(valuta.getSkraceniNaziv());
 		prozorObrisiKurs.upisiSifru(""+valuta.getSifra());
@@ -169,5 +169,26 @@ public class GUIKontroler {
 	}
 	public static void zatvoriProzorObrisi(){
 		prozorObrisiKurs.dispose();
+	}
+	
+	//IzvrsiZamenu
+	public static void prikaziValutuIzvrsiZamenu(Valuta valuta){
+		prozorIzvrsiZamenu.upisiValutu(valuta.getNaziv());
+		prozorIzvrsiZamenu.upisiKupovni(""+valuta.getKupovni());
+		prozorIzvrsiZamenu.upisiProdajni(""+valuta.getProdajni());
+	}
+	
+	public static void izvrsiZamenu(Valuta valuta){
+		try{
+			double konacniIznos = 
+					sistem.izvrsiTransakciju(valuta,
+							prozorIzvrsiZamenu.daLiJeSelektovanRdbtnProdaja(), 
+							Double.parseDouble(prozorIzvrsiZamenu.vratiIznos()));
+		
+			prozorIzvrsiZamenu.upisiKonacni((""+konacniIznos));
+		} catch (Exception e1) {
+		JOptionPane.showMessageDialog(frame, e1.getMessage(),
+				"Greska", JOptionPane.ERROR_MESSAGE);
+	}
 	}
 }

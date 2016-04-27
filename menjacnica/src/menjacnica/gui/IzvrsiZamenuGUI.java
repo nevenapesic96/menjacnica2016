@@ -86,7 +86,7 @@ public class IzvrsiZamenuGUI extends JFrame {
 		this.glavniProzor = glavniProzor;
 		this.valuta = valuta;
 				
-		prikaziValutu();
+		GUIKontroler.prikaziValutuIzvrsiZamenu(valuta);
 	}
 	private JLabel getLblKupovni() {
 		if (lblKupovni == null) {
@@ -152,6 +152,9 @@ public class IzvrsiZamenuGUI extends JFrame {
 		}
 		return rdbtnProdaja;
 	}
+	public boolean daLiJeSelektovanRdbtnProdaja(){
+		return getRdbtnProdaja().isSelected();
+	}
 	private JLabel getLblVrstaTransakcije() {
 		if (lblVrstaTransakcije == null) {
 			lblVrstaTransakcije = new JLabel("Vrsta transakcije");
@@ -164,7 +167,7 @@ public class IzvrsiZamenuGUI extends JFrame {
 			btnIzvrsiZamenu = new JButton("Izracunaj iznos");
 			btnIzvrsiZamenu.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					izvrsiZamenu();
+					GUIKontroler.izvrsiZamenu(valuta);
 				}
 			});
 			btnIzvrsiZamenu.setBounds(24, 234, 160, 25);
@@ -190,6 +193,9 @@ public class IzvrsiZamenuGUI extends JFrame {
 			textFieldIznos.setColumns(10);
 		}
 		return textFieldIznos;
+	}
+	public String vratiIznos(){
+		return getTextFieldIznos().getText();
 	}
 	private JSlider getSlider() {
 		if (slider == null) {
@@ -232,24 +238,16 @@ public class IzvrsiZamenuGUI extends JFrame {
 		}
 		return textFieldKonacniIznos;
 	}
-	
-	private void prikaziValutu(){
-		textFieldProdajniKurs.setText(""+valuta.getProdajni());
-		textFieldKupovniKurs.setText(""+valuta.getKupovni());
-		textFieldValuta.setText(valuta.getSkraceniNaziv());
+	public void upisiKonacni(String tekst){
+		textFieldKonacniIznos.setText(tekst);
 	}
-	
-	private void izvrsiZamenu(){
-		try{
-			double konacniIznos = 
-					glavniProzor.sistem.izvrsiTransakciju(valuta,
-							rdbtnProdaja.isSelected(), 
-							Double.parseDouble(textFieldIznos.getText()));
-		
-			textFieldKonacniIznos.setText(""+konacniIznos);
-		} catch (Exception e1) {
-		JOptionPane.showMessageDialog(contentPane, e1.getMessage(),
-				"Greska", JOptionPane.ERROR_MESSAGE);
+	public void upisiProdajni(String tekst){
+		textFieldProdajniKurs.setText(tekst);
 	}
+	public void upisiKupovni(String tekst){
+		textFieldKupovniKurs.setText(tekst);
+	}
+	public void upisiValutu(String tekst){
+		textFieldValuta.setText(tekst);
 	}
 }
