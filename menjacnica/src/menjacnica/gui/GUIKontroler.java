@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.table.TableModel;
 
 import menjacnica.Menjacnica;
+import menjacnica.Valuta;
 import menjacnica.gui.models.MenjacnicaTableModel;
 
 public class GUIKontroler {
@@ -16,6 +17,7 @@ public class GUIKontroler {
 	protected static Menjacnica sistem;
 	
 	public static MenjacnicaGUI frame;
+	public static DodajKursGUI prozorDodajKurs;
 	
 	/**
 	 * Launch the application.
@@ -34,6 +36,8 @@ public class GUIKontroler {
 		});
 	}
 	
+	//MenjacnicaGUI
+	
 	public static void ugasiAplikaciju(){
 		int opcija = JOptionPane.showConfirmDialog(frame.getContentPane(),
 				"Da li ZAISTA zelite da izadjete iz apliacije", "Izlazak",
@@ -44,9 +48,9 @@ public class GUIKontroler {
 	}
 	
 	public static void prikaziDodajKursGUI(){
-		DodajKursGUI prozor = new DodajKursGUI(frame);
-		prozor.setLocationRelativeTo(frame.getContentPane());
-		prozor.setVisible(true);
+		prozorDodajKurs = new DodajKursGUI(frame);
+		prozorDodajKurs.setLocationRelativeTo(frame.getContentPane());
+		prozorDodajKurs.setVisible(true);
 	}
 	
 	public static void prikaziObrisiKursGUI(int selektovanRed, TableModel tableModel){
@@ -108,5 +112,37 @@ public class GUIKontroler {
 		JOptionPane.showMessageDialog(frame,
 				"Autor: Bojan Tomic, Verzija 1.0", "O programu Menjacnica",
 				JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	//DodajKursGUI
+	
+	public static void unesiKurs(String naziv, String skraceniNaziv, Object sifra, String prodajni, String kupovni, String srednji){
+		try {
+			Valuta valuta = new Valuta();
+
+			// Punjenje podataka o valuti
+			valuta.setNaziv(naziv);
+			valuta.setSkraceniNaziv(skraceniNaziv);
+			valuta.setSifra((Integer)(sifra));
+			valuta.setProdajni(Double.parseDouble(prodajni));
+			valuta.setKupovni(Double.parseDouble(kupovni));
+			valuta.setSrednji(Double.parseDouble(srednji));
+			
+			// Dodavanje valute u kursnu listu
+			sistem.dodajValutu(valuta);
+
+			// Osvezavanje glavnog prozora
+			prikaziSveValute((TableModel)frame.vratiTabelu());
+			
+			//Zatvaranje DodajValutuGUI prozora
+			prozorDodajKurs.dispose();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(frame, e1.getMessage(),
+					"Greska", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public static void odustani(){
+		prozorDodajKurs.dispose();
 	}
 }

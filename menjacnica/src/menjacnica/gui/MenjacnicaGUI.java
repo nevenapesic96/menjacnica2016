@@ -63,7 +63,7 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem mntmSave;
 	private JMenuItem mntmExit;
 	private JMenuItem mntmAbout;
-	private JTable table;
+	private static JTable table;
 
 	
 	/**
@@ -220,11 +220,14 @@ public class MenjacnicaGUI extends JFrame {
 	private static void addPopup(Component component, final JPopupMenu popup) {
 	}
 	
-	private JTable getTable() {
+	private static JTable getTable() {
 		if (table == null) {
 			table = new JTable();
 			table.setModel(new MenjacnicaTableModel());
 		}
 		return table;
+	}
+	public static JTable vratiTabelu(){
+		return getTable();
 	}
 }
