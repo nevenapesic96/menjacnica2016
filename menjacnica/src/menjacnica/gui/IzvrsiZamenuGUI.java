@@ -86,7 +86,7 @@ public class IzvrsiZamenuGUI extends JFrame {
 		this.glavniProzor = glavniProzor;
 		this.valuta = valuta;
 				
-		GUIKontroler.prikaziValutuIzvrsiZamenu(valuta);
+		prikaziValutu();
 	}
 	private JLabel getLblKupovni() {
 		if (lblKupovni == null) {
@@ -167,7 +167,13 @@ public class IzvrsiZamenuGUI extends JFrame {
 			btnIzvrsiZamenu = new JButton("Izracunaj iznos");
 			btnIzvrsiZamenu.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					GUIKontroler.izvrsiZamenu(valuta);
+					try{
+					double iznos=GUIKontroler.izvrsiZamenu(valuta);
+					textFieldKonacniIznos.setText(""+iznos);
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(),
+								"Greska", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			});
 			btnIzvrsiZamenu.setBounds(24, 234, 160, 25);
@@ -238,16 +244,9 @@ public class IzvrsiZamenuGUI extends JFrame {
 		}
 		return textFieldKonacniIznos;
 	}
-	public void upisiKonacni(String tekst){
-		textFieldKonacniIznos.setText(tekst);
-	}
-	public void upisiProdajni(String tekst){
-		textFieldProdajniKurs.setText(tekst);
-	}
-	public void upisiKupovni(String tekst){
-		textFieldKupovniKurs.setText(tekst);
-	}
-	public void upisiValutu(String tekst){
-		textFieldValuta.setText(tekst);
+	private void prikaziValutu(){
+		textFieldProdajniKurs.setText(""+valuta.getProdajni());
+		textFieldKupovniKurs.setText(""+valuta.getKupovni());
+		textFieldValuta.setText(valuta.getSkraceniNaziv());
 	}
 }

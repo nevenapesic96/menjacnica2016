@@ -74,6 +74,7 @@ public class GUIKontroler {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
 				sistem.ucitajIzFajla(file.getAbsolutePath());
+				frame.prikaziSveValute();
 			}	
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(frame, e1.getMessage(),
@@ -105,18 +106,15 @@ public class GUIKontroler {
 	
 	//DodajKursGUI
 	
-	public static void unesiKurs(String naziv, String skraceniNaziv, Object sifra, String prodajni, String kupovni, String srednji){
+	public static void unesiKurs(String naziv, String skrNaziv, int sifra, double prodajni,double kupovni, double srednji){
 		try {
 			Valuta valuta = new Valuta();
-
-			// Punjenje podataka o valuti
 			valuta.setNaziv(naziv);
-			valuta.setSkraceniNaziv(skraceniNaziv);
-			valuta.setSifra((Integer)(sifra));
-			valuta.setProdajni(Double.parseDouble(prodajni));
-			valuta.setKupovni(Double.parseDouble(kupovni));
-			valuta.setSrednji(Double.parseDouble(srednji));
-			
+			valuta.setSkraceniNaziv(skrNaziv);
+			valuta.setSifra(sifra);
+			valuta.setProdajni(prodajni);
+			valuta.setKupovni(kupovni);
+			valuta.setSrednji(srednji);
 			// Dodavanje valute u kursnu listu
 			sistem.dodajValutu(valuta);
 
@@ -135,14 +133,6 @@ public class GUIKontroler {
 	}
 	//ObrisiKursGUI
 	
-	public static void prikaziValutuObrisiKurs(Valuta valuta){
-		prozorObrisiKurs.upisiNaziv(valuta.getNaziv());
-		prozorObrisiKurs.upisiSkraceniNaziv(valuta.getSkraceniNaziv());
-		prozorObrisiKurs.upisiSifru(""+valuta.getSifra());
-		prozorObrisiKurs.upisiProdajni(""+valuta.getProdajni());
-		prozorObrisiKurs.upisiKupovni(""+valuta.getKupovni());
-		prozorObrisiKurs.upisiSrednji(""+valuta.getSrednji());
-	}
 	
 	public static void obrisiValutu(Valuta valuta){
 		try{
@@ -159,25 +149,15 @@ public class GUIKontroler {
 		prozorObrisiKurs.dispose();
 	}
 	
-	//IzvrsiZamenu
-	public static void prikaziValutuIzvrsiZamenu(Valuta valuta){
-		prozorIzvrsiZamenu.upisiValutu(valuta.getNaziv());
-		prozorIzvrsiZamenu.upisiKupovni(""+valuta.getKupovni());
-		prozorIzvrsiZamenu.upisiProdajni(""+valuta.getProdajni());
-	}
+	//Izvrsi zamenu
 	
-	public static void izvrsiZamenu(Valuta valuta){
-		try{
+	public static double izvrsiZamenu(Valuta valuta){
 			double konacniIznos = 
 					sistem.izvrsiTransakciju(valuta,
 							prozorIzvrsiZamenu.daLiJeSelektovanRdbtnProdaja(), 
 							Double.parseDouble(prozorIzvrsiZamenu.vratiIznos()));
 		
-			prozorIzvrsiZamenu.upisiKonacni((""+konacniIznos));
-		} catch (Exception e1) {
-		JOptionPane.showMessageDialog(frame, e1.getMessage(),
-				"Greska", JOptionPane.ERROR_MESSAGE);
-	}
+		return konacniIznos;
 	}
 	public static LinkedList<Valuta> vratiKursnuListu() {
 		return sistem.vratiKursnuListu();

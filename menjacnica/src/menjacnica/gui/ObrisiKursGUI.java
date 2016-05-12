@@ -79,7 +79,7 @@ public class ObrisiKursGUI extends JFrame {
 		this.glavniProzor = glavniProzor;
 		this.valuta = valuta;
 		
-		GUIKontroler.prikaziValutuObrisiKurs(valuta);
+		prikaziValutu();
 	}
 
 	private JLabel getLblSifra() {
@@ -215,22 +215,38 @@ public class ObrisiKursGUI extends JFrame {
 		}
 		return label;
 	}
-	public void upisiNaziv(String tekst){
-		textFieldNaziv.setText(tekst);
+	
+	public void setTextFieldSifra(JTextField textFieldSifra) {
+		this.textFieldSifra = textFieldSifra;
 	}
-	public void upisiSifru(String tekst){
-		textFieldSifra.setText(tekst);
+
+	public void setTextFieldNaziv(JTextField textFieldNaziv) {
+		this.textFieldNaziv = textFieldNaziv;
 	}
-	public void upisiProdajni(String tekst){
-		textFieldProdajniKurs.setText(tekst);
+
+	public void setTextFieldProdajniKurs(JTextField textFieldProdajniKurs) {
+		this.textFieldProdajniKurs = textFieldProdajniKurs;
 	}
-	public void upisiKupovni(String tekst){
-		textFieldKupovniKurs.setText(tekst);
+
+	public void setTextFieldKupovniKurs(JTextField textFieldKupovniKurs) {
+		this.textFieldKupovniKurs = textFieldKupovniKurs;
 	}
-	public void upisiSrednji(String tekst){
-		textFieldSrednjiKurs.setText(tekst);
+
+	public void setTextFieldSrednjiKurs(JTextField textFieldSrednjiKurs) {
+		this.textFieldSrednjiKurs = textFieldSrednjiKurs;
 	}
-	public void upisiSkraceniNaziv(String tekst){
-		textFieldSkraceniNaziv.setText(tekst);
+
+	public void setTextFieldSkraceniNaziv(JTextField textFieldSkraceniNaziv) {
+		this.textFieldSkraceniNaziv = textFieldSkraceniNaziv;
+	}
+
+	private void prikaziValutu() {
+		// Prikaz podataka o valuti
+		textFieldNaziv.setText(valuta.getNaziv());
+		textFieldSkraceniNaziv.setText(valuta.getSkraceniNaziv());
+		textFieldSifra.setText(""+valuta.getSifra());
+		textFieldProdajniKurs.setText(""+valuta.getProdajni());
+		textFieldKupovniKurs.setText(""+valuta.getKupovni());
+		textFieldSrednjiKurs.setText(""+valuta.getSrednji());				
 	}
 }

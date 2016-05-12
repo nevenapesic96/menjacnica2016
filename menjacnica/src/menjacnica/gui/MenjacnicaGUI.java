@@ -130,7 +130,8 @@ public class MenjacnicaGUI extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					if (table.getSelectedRow() != -1) {
 						MenjacnicaTableModel model = (MenjacnicaTableModel)(table.getModel());
-						GUIKontroler.prikaziObrisiKursGUI(model.vratiValutu(table.getSelectedRow()));
+						Valuta valuta=model.vratiValutu(table.getSelectedRow());
+						GUIKontroler.prikaziObrisiKursGUI(valuta);
 				}
 				}
 			});
