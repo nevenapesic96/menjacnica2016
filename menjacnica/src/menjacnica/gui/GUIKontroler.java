@@ -15,7 +15,7 @@ import menjacnica.gui.models.MenjacnicaTableModel;
 
 public class GUIKontroler {
 	//klasa na logickom nivou
-	protected static Menjacnica sistem;
+	private static Menjacnica sistem;
 	
 	public static MenjacnicaGUI frame;
 	public static DodajKursGUI prozorDodajKurs;
@@ -50,19 +50,19 @@ public class GUIKontroler {
 	}
 	
 	public static void prikaziDodajKursGUI(){
-		prozorDodajKurs = new DodajKursGUI(frame);
+		prozorDodajKurs = new DodajKursGUI();
 		prozorDodajKurs.setLocationRelativeTo(frame.getContentPane());
 		prozorDodajKurs.setVisible(true);
 	}
 	
 	public static void prikaziObrisiKursGUI(Valuta valuta){
-			prozorObrisiKurs = new ObrisiKursGUI(frame,valuta);
+			prozorObrisiKurs = new ObrisiKursGUI(valuta);
 			prozorObrisiKurs.setLocationRelativeTo(frame.getContentPane());
 			prozorObrisiKurs.setVisible(true);
 	}
 	
 	public static void prikaziIzvrsiZamenuGUI(Valuta valuta){
-			prozorIzvrsiZamenu = new IzvrsiZamenuGUI(frame,valuta);
+			prozorIzvrsiZamenu = new IzvrsiZamenuGUI(valuta);
 			prozorIzvrsiZamenu.setLocationRelativeTo(frame.getContentPane());
 			prozorIzvrsiZamenu.setVisible(true);
 	}
@@ -162,4 +162,13 @@ public class GUIKontroler {
 	public static LinkedList<Valuta> vratiKursnuListu() {
 		return sistem.vratiKursnuListu();
 	}
+
+	public static Menjacnica getSistem() {
+		return sistem;
+	}
+
+	public static void setSistem(Menjacnica sistem) {
+		GUIKontroler.sistem = sistem;
+	}
+	
 }
